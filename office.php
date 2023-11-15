@@ -22,26 +22,29 @@
 <?php
     require('config/config.php');
     require('config/db.php');
-// Define total number of result you want per page
-$results_per_page = 5;
+    // get value sent over search form  
+    $search = $_GET['search'];
 
-// find the total number of resolt/rows stored in the database
-$query  = "SELECT * FROM office";
-$result = mysqli_query($conn, $query);
-$number_of_result = mysqli_num_rows($result);
+    // Define total number of result you want per page
+    $results_per_page = 5;
 
-//Determine the total number of page available
-$number_of_page = ceil($number_of_result / $results_per_page);
+    // find the total number of resolt/rows stored in the database
+    $query  = "SELECT * FROM office";
+    $result = mysqli_query($conn, $query);
+    $number_of_result = mysqli_num_rows($result);
 
-// determine which page number visitor is currently on
-if(!isset($_GET['page'])){
-    $page = 1;
-} else {
-    $page = $_GET['page'];
-}
+    //Determine the total number of page available
+    $number_of_page = ceil($number_of_result / $results_per_page);
 
-// Determine the sql LIMIT starting number for the result on the display page
-$page_first_result = ($page-1) * $result_per_page;
+    // determine which page number visitor is currently on
+    if(!isset($_GET['page'])){
+        $page = 1;
+    } else {
+        $page = $_GET['page'];
+    }
+
+    // Determine the sql LIMIT starting number for the result on the display page
+    $page_first_result = ($page-1) * $results_per_page;
     //CREATE query
     $query = 'SELECT * FROM office ORDER BY name LIMIT '. $page_first_result . ','. $results_per_page;
 
@@ -95,6 +98,8 @@ $page_first_result = ($page-1) * $result_per_page;
                                             <th>City</th>
                                             <th>Country</th>
                                             <th>Postal</th>
+                                            <th>Action</th>
+
                                         </thead>
                                         <tbody>
                                             <?php foreach($offices as $office) : ?>
@@ -111,6 +116,11 @@ $page_first_result = ($page-1) * $result_per_page;
                                                         <button type="submit" class="btn btn-warning btn-fill pull-right">Edit</button>
                                                     </a>
                                                 </td>
+                                                <td>
+                                                <a href="/office-delete.php?id=<?php echo $office['id']; ?>">
+                                                <button type="submit" class="btn btn-danger btn-fill pull-right">Delete</button>
+                                                </a>
+                                                </td>
                                             </tr>
                                             <?php endforeach?>
                                           
@@ -126,10 +136,7 @@ $page_first_result = ($page-1) * $result_per_page;
                         }
                     ?>
                 </div>
-
             </div>
-
-
             <footer class="footer">
                 <div class="container-fluid">
                     <nav>

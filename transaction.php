@@ -44,7 +44,7 @@
      }
 
     // Determine the sql LIMIT starting number for the result on the display page
-    $page_first_result = ($page-1) * $result_per_page;
+    $page_first_result = ($page-1) * $results_per_page;
 
    
     //CREATE query

@@ -22,18 +22,18 @@
 <?php
     require('config/config.php');
     require('config/db.php');
-    
+
     //get value sent over
     $id = $_GET['id'];
 
     // create query
-    $query = "SELECT * FROM employee WHERE id=" .$id;
+    $query = "SELECT * FROM office WHERE id=" . $id;
 
     // get result of query
     $result = mysqli_query($conn, $query);
 
     if(mysqli_num_rows($result)==1){
-        // feth data
+        // fetch data
         $office = mysqli_fetch_array($result);
         $name = $office['name'];
         $contactnum = $office['contactnum'];
@@ -43,14 +43,13 @@
         $country = $office['country'];
         $postal = $office['postal'];
     }
-
-    // free result
+    
+    //free result
     mysqli_free_result($result);
 
     //close connection
     mysqli_close($conn);
-
-    ?>
+?>
     <div class="wrapper">
         <div class="sidebar" data-image="../assets/img/sidebar-5.jpg">
            
@@ -76,9 +75,11 @@
         $city = mysqli_real_escape_string($conn, $_POST['city']);
         $country = mysqli_real_escape_string($conn, $_POST['country']);
         $postal = mysqli_real_escape_string($conn, $_POST['postal']);
+
         // Create insert query
-        $query = "UPDATE office SET name='$name', contactnum='$contactnum', email='$email', address='$address' city='$city', country='$country', postal='$postal'
-        WHERE id=". $id;
+        $query = "UPDATE office SET name='$name', contactnum='$contactnum', email='$email', address='$address', city='$city', country='$country', postal='$postal'
+                WHERE id=" . $id;
+  
 
         // Execute query
         if(mysqli_query($conn, $query)){
@@ -108,19 +109,19 @@
                                             <div class="col-md-5 pr-1">
                                                 <div class="form-group">
                                                     <label>Office Name</label>
-                                                    <input type="text" class="form-control" name="name" value="<?php echo $lastname;?>">
+                                                    <input type="text" class="form-control" name="name" value="<?php echo $name; ?>">
                                                 </div>
                                             </div>
                                             <div class="col-md-3 px-1">
                                                 <div class="form-group">
                                                     <label>Contact Number</label>
-                                                    <input type="text" class="form-control"  name="contactnum" value="<?php echo $contactnum;?>">
+                                                    <input type="text" class="form-control"  name="contactnum" value="<?php echo $contactnum; ?>">
                                                 </div>
                                             </div>
                                             <div class="col-md-4 pl-1">
                                                 <div class="form-group">
                                                     <label for="exampleInputEmail1">Email address</label>
-                                                    <input type="email" class="form-control"  name="email" value="<?php echo $email;?>">
+                                                    <input type="email" class="form-control"  name="email" value="<?php echo $email; ?>">
                                                 </div>
                                             </div>
                                         </div>
@@ -128,7 +129,7 @@
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label>Address / Building</label>
-                                                    <input type="text" class="form-control"  name="address" value="<?php echo $address;?>">
+                                                    <input type="text" class="form-control"  name="address" value="<?php echo $address; ?>">
                                                 </div>
                                             </div>
                                            
@@ -137,21 +138,20 @@
                                         <div class="col-md-4 pr-1">
                                                 <div class="form-group">
                                                     <label>City</label>
-                                                    <input type="text" class="form-control"  name="city" value="<?php echo $city;?>">
+                                                    <input type="text" class="form-control"  name="city" value="<?php echo $city; ?>">
                                                 </div>
                                             </div>
                                             <div class="col-md-4 pr-1">
                                                 <div class="form-group">
                                                     <label>Country</label>
-                                                    <input type="text" class="form-control" name="country" value="<?php echo $country;?>">
+                                                    <input type="text" class="form-control" name="country" value="<?php echo $country; ?>">
                                                 </div>
                                             </div>
-                                        <!-- </div>
-                                        <div class="row"> -->
+                                       
                                             <div class="col-md-4 pr-1">
                                                 <div class="form-group">
                                                     <label>Postal Code</label>
-                                                    <input type="text" class="form-control"  name="postal" value="<?php echo $postal;?>">
+                                                    <input type="text" class="form-control"  name="postal" value="<?php echo $postal; ?>">
                                                 </div>
                                             </div>
                                             
@@ -164,7 +164,7 @@
                             </div>
                         </div>
                         </div>
-                       
+
                     </div>
                 </div>
             </div>

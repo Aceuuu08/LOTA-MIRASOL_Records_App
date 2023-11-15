@@ -22,26 +22,27 @@
 <?php
     require('config/config.php');
     require('config/db.php');
- // Define total number of result you want per page
- $results_per_page = 5;
+    // Define total number of result you want per page
+    $results_per_page = 5;
 
- // find the total number of resolt/rows stored in the database
- $query  = "SELECT * FROM employee";
- $result = mysqli_query($conn, $query);
- $number_of_result = mysqli_num_rows($result);
+    // find the total number of resolt/rows stored in the database
+    $query  = "SELECT * FROM employee";
+    $result = mysqli_query($conn, $query);
+    $number_of_result = mysqli_num_rows($result);
+    
+    //Determine the total number of page available
+    $number_of_page = ceil($number_of_result / $results_per_page);
 
- //Determine the total number of page available
- $number_of_page = ceil($number_of_result / $results_per_page);
+    // determine which page number visitor is currently on
+    if(!isset($_GET['page'])){
+        $page = 1;
+    } else {
+        $page = $_GET['page'];
+     }
 
- // determine which page number visitor is currently on
- if(!isset($_GET['page'])){
-     $page = 1;
- } else {
-     $page = $_GET['page'];
- }
+    // Determine the sql LIMIT starting number for the result on the display page
+    $page_first_result = ($page-1) * $results_per_page;
 
- // Determine the sql LIMIT starting number for the result on the display page
- $page_first_result = ($page-1) * $result_per_page;
     //CREATE query
     $query = 'SELECT employee.id, employee.lastname, employee.firstname, employee.address, office.name as office_name FROM employee, office WHERE employee.office_id = office.id ORDER BY employee.lastname LIMIT '. $page_first_result . ','. $results_per_page;
 
@@ -92,7 +93,7 @@
                                             <th>First name</th>
                                             <th>Address</th>
                                             <th>Office</th>
-                                            <th>Edit</th>
+                                            <th>Action</th>
                                  
                                         </thead>
                                         <tbody>
@@ -107,6 +108,11 @@
                                                         <button type="submit" class="btn btn-warning btn-fill pull-right">Edit</button>
                                                     </a>
                                                 </td>
+                                                <td>
+                                                <a href="/employee-delete.php?id=<?php echo $employee['id']; ?>">
+                                                <button type="submit" class="btn btn-danger btn-fill pull-right">Delete</button>
+                                                </a>
+                                                </td>
                                             </tr>
                                             <?php endforeach?>
                                           
@@ -118,13 +124,11 @@
                     </div>
                     <?php
                         for($page=1; $page <= $number_of_page; $page++){
-                            echo '<a href = "transaction.php?page='. $page .'">' . $page . '</a>';
+                            echo '<a href = "employee.php?page='. $page .'">' . $page . '</a>';
                         }
                     ?>
                 </div>
             </div>
-
-
             <footer class="footer">
                 <div class="container-fluid">
                     <nav>
